@@ -22,7 +22,7 @@
 //! async fn main() {
 //!    let client = Client::new("timezone").await;
 //!
-//!    let payload = HashMap::new();
+//!    let mut payload = HashMap::new();
 //!    payload.insert("area", "America");
 //!    payload.insert("location", "New_York");
 //!
@@ -34,8 +34,14 @@
 //! To get a list of regions and locations, use the `regions` method:
 //!
 //! ```rust
-//! let regions = client.regions().unwrap();
-//! println!("{:?}", regions);
+//! use worldtimeapi::service::Client;
+//!
+//! #[tokio::main]
+//! async fn main() {
+//!   let client = Client::new("timezone").await;
+//!   let regions = client.regions();
+//!   println!("{:?}", regions);
+//! }  
 //! ```
 //!
 

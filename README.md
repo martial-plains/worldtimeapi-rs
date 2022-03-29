@@ -16,13 +16,17 @@ Then create a client for an endpoint (currently they only offer "ip" and "timezo
 ```rust
 use std::collections::HashMap;
 use worldtimeapi::service::Client;
+
 #[tokio::main]
 async fn main() {
    let client = Client::new("timezone").await;
    let payload = HashMap::new();
+   
    payload.insert("area", "America");
    payload.insert("location", "New_York");
+   
    let result = client.get(payload).await.unwrap();
+   
    println!("{}", result.datetime());
 }
 ```
@@ -32,4 +36,4 @@ To get a list of regions and locations, use the `regions` method:
 ```rust
 let regions = client.regions().unwrap();
 println!("{:?}", regions);
-``
+```

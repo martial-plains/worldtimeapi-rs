@@ -1,5 +1,7 @@
 # World Time Wrapper
 
+[![Rust](https://github.com/powpow58/worldtimeapi-rs/actions/workflows/rust.yml/badge.svg)](https://github.com/powpow58/worldtimeapi-rs/actions/workflows/rust.yml)
+
 This is a simple wrapper for the [World Time API](https://worldtimeapi.org/api/timezone/). This crate is based on the [WorldTimeAPI wrapper](https://github.com/Dulatr/WorldTimeAPI) by Dulatr.
 
 ## Usage
@@ -34,6 +36,12 @@ async fn main() {
 To get a list of regions and locations, use the `regions` method:
 
 ```rust
-let regions = client.regions().unwrap();
-println!("{:?}", regions);
+use worldtimeapi::service::Client;
+
+ #[tokio::main]
+ async fn main() {
+   let client = Client::new("timezone").await;
+   let regions = client.regions();
+   println!("{:?}", regions);
+}
 ```

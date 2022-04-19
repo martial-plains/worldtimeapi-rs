@@ -2,7 +2,7 @@
 
 [![Rust](https://github.com/powpow58/worldtimeapi-rs/actions/workflows/rust.yml/badge.svg)](https://github.com/powpow58/worldtimeapi-rs/actions/workflows/rust.yml)
 
-This is a simple wrapper for the [World Time API](https://worldtimeapi.org/api/timezone/). This crate is based on the [WorldTimeAPI wrapper](https://github.com/Dulatr/WorldTimeAPI) by Dulatr.
+This is a simple wrapper for the [World Time API](http://worldtimeapi.org). This crate is based on the [WorldTimeAPI wrapper](https://github.com/Dulatr/WorldTimeAPI) by Dulatr.
 
 ## Usage
 

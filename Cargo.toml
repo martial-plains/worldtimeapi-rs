@@ -6,7 +6,7 @@ authors = ["Allister Isaiah Harvey <a.i.harvey@icloud.com"]
 description = "A simple API for getting the current time in different timezones."
 license = "MIT"
 readme = "README.md"
-repository = "https://github.com/powpow58/worldtimeapi-rs"
+repository = "https://github.com/a-isaiahharvey/worldtimeapi-rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

@@ -15,27 +15,27 @@ pub struct Client {
 
 impl Client {
     /// Create a new client for the specified endpoint.
-    pub async fn new(endpoint: &str) -> Client {
+    pub async fn new(endpoint: &str) -> Result<Client, reqwest::Error> {
         // for the timezone endpoint, define a region list property
         let regions: Vec<Value> = match endpoint {
             "timezone" => {
                 let url = "https://worldtimeapi.org/api/timezone/".to_string();
-                let response = reqwest::get(&url).await.unwrap();
-                let regions = response.json().await.unwrap();
-                regions
+                let response = reqwest::get(&url).await?;
+
+                response.json().await?
             }
             "ip" => {
                 let url = "https://worldtimeapi.org/api/ip".to_string();
-                let response = reqwest::get(&url).await.unwrap();
-                let regions = response.json().await.unwrap();
-                regions
+                let response = reqwest::get(&url).await?;
+
+                response.json().await?
             }
             _ => panic!("Unsupported endpoint: {}", endpoint),
         };
 
         let url: String = format!("https://worldtimeapi.org/api/{}", endpoint);
 
-        Client { regions, url }
+        Ok(Client { regions, url })
     }
 
     /// Get the current time for the specified region.

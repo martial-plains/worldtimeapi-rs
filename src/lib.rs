@@ -8,7 +8,7 @@
 //!
 //! ```toml
 //! [dependencies]
-//! worldtimeapi = "0.1"
+//! worldtimeapi = "0.2.0"
 //! ```
 //!
 //! Then create a client for an endpoint (currently they only offer "ip" and "timezone"):
@@ -19,15 +19,16 @@
 //! use worldtimeapi::service::Client;
 //!
 //! #[tokio::main]
-//! async fn main() {
-//!    let client = Client::new("timezone").await;
+//! async fn main() -> Result<(), reqwest::Error> {
+//!     let client = Client::new("timezone").await?;
 //!
-//!    let mut payload = HashMap::new();
-//!    payload.insert("area", "America");
-//!    payload.insert("location", "New_York");
+//!     let mut payload = HashMap::new();
+//!     payload.insert("area", "America");
+//!     payload.insert("location", "New_York");
 //!
-//!    let result = client.get(payload).await.unwrap();
-//!    println!("{}", result.datetime());
+//!     let result = client.get(payload).await?;
+//!     println!("{}", result.datetime());
+//!     Ok(())
 //! }
 //! ```
 //!
@@ -37,10 +38,11 @@
 //! use worldtimeapi::service::Client;
 //!
 //! #[tokio::main]
-//! async fn main() {
-//!   let client = Client::new("timezone").await;
-//!   let regions = client.regions();
-//!   println!("{:?}", regions);
+//! async fn main() -> Result<(), reqwest::Error> {
+//!     let client = Client::new("timezone").await?;
+//!     let regions = client.regions();
+//!     println!("{:?}", regions);
+//!     Ok(())  
 //! }  
 //! ```
 //!

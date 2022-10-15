@@ -1,6 +1,6 @@
 [package]
 name = "worldtimeapi"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 authors = ["Allister Isaiah Harvey <a.i.harvey@icloud.com"]
 description = "A simple API for getting the current time in different timezones."
@@ -11,10 +11,10 @@ repository = "https://github.com/a-isaiahharvey/worldtimeapi-rs"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-serde = { version = "1.0.136", features = ["derive"] }
-serde_json = { version = "1.0.79" }
-reqwest = { version = "0.11.10", features = ["json"] }
-chrono = { version = "0.4.19", features = ["serde"] }
+serde = { version = "1.0.145", features = ["derive"] }
+serde_json = { version = "1.0.86" }
+reqwest = { version = "0.11.12", features = ["json"] }
+chrono = { version = "0.4.22", features = ["serde"] }
 
 [dev-dependencies]
-tokio = { version = "1.17.0", features = ["macros", "rt-multi-thread"] }
+tokio = { version = "1.21.2", features = ["macros", "rt-multi-thread"] }

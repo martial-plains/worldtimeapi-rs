@@ -10,9 +10,9 @@ pub struct DateTimeJson {
     day_of_week: i64,
     day_of_year: i64,
     dst: bool,
-    dst_from: DateTime<Utc>,
+    dst_from: Option<DateTime<Utc>>,
     dst_offset: i64,
-    dst_until: DateTime<Utc>,
+    dst_until: Option<DateTime<Utc>>,
     raw_offset: i64,
     timezone: String,
     unixtime: i64,
@@ -81,7 +81,7 @@ impl DateTimeJson {
 
     /// Returns the dst_from of the timezone
     #[must_use]
-    pub fn dst_from(&self) -> DateTime<Utc> {
+    pub fn dst_from(&self) -> Option<DateTime<Utc>> {
         self.dst_from
     }
 
@@ -93,7 +93,7 @@ impl DateTimeJson {
 
     /// Returns the dst_until of the timezone
     #[must_use]
-    pub fn dst_until(&self) -> DateTime<Utc> {
+    pub fn dst_until(&self) -> Option<DateTime<Utc>> {
         self.dst_until
     }
 

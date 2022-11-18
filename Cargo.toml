@@ -1,6 +1,6 @@
 [package]
 name = "worldtimeapi"
-version = "0.2.0"
+version = "0.3.0"
 edition = "2021"
 authors = ["Allister Isaiah Harvey <a.i.harvey@icloud.com"]
 description = "A simple API for getting the current time in different timezones."
@@ -14,7 +14,7 @@ repository = "https://github.com/a-isaiahharvey/worldtimeapi-rs"
 serde = { version = "1.0.147", features = ["derive"] }
 serde_json = { version = "1.0.87" }
 reqwest = { version = "0.11.12", features = ["json"] }
-chrono = { version = "0.4.22", features = ["serde"] }
+chrono = { version = "0.4.23", features = ["serde"] }
 
 [dev-dependencies]
 tokio = { version = "1.21.2", features = ["macros", "rt-multi-thread"] }

@@ -8,7 +8,7 @@
 //!
 //! ```toml
 //! [dependencies]
-//! worldtimeapi = "0.2.0"
+//! worldtimeapi = "0.4.1"
 //! ```
 //!
 //! Then create a client for an endpoint (currently they only offer "ip" and "timezone"):

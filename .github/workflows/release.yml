@@ -1,0 +1,21 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # You may pin to the exact commit or the version.
+    # uses: katyo/publish-crates@04c00a4beebff1741361a108e578296cb52ae085
+    - uses: katyo/publish-crates@v1
+    - with:
+        # Github API token
+        token: ${{ secrets.GITHUB_TOKEN }}
+        # Cargo registry token
+        registry-token: ${{ secrets.CARGO_TOKEN }}

@@ -16,11 +16,11 @@
 //! ```rust
 //! use std::collections::HashMap;
 //!
-//! use worldtimeapi::service::Client;
+//! use worldtimeapi::service::{Client, Endpoint};
 //!
 //! #[tokio::main]
 //! async fn main() -> Result<(), reqwest::Error> {
-//!     let client = Client::new("timezone").await?;
+//!     let client = Client::new(Endpoint::Timezone).await?;
 //!
 //!     let mut payload = HashMap::new();
 //!     payload.insert("area", "America");
@@ -35,11 +35,11 @@
 //! To get a list of regions and locations, use the `regions` method:
 //!
 //! ```rust
-//! use worldtimeapi::service::Client;
+//! use worldtimeapi::service::{Client, Endpoint};
 //!
 //! #[tokio::main]
 //! async fn main() -> Result<(), reqwest::Error> {
-//!     let client = Client::new("timezone").await?;
+//!     let client = Client::new(Endpoint::Timezone).await?;
 //!     let regions = client.regions();
 //!     println!("{:?}", regions);
 //!     Ok(())  

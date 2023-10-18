@@ -1,4 +1,4 @@
-use std::{collections::HashMap, panic};
+use std::{collections::HashMap, fmt::Display, panic};
 
 use serde_json::Value;
 
@@ -13,24 +13,49 @@ pub struct Client {
     url: String,
 }
 
+/// An enumeration of the supported endpoints for the World Time API client.
+///
+/// The World Time API provides two endpoints: "timezone" and "ip".
+/// The "timezone" endpoint allows querying the current time for a specific timezone region.
+/// The "ip" endpoint allows querying the current time for a specific IP address.
+#[derive(Debug, Clone, Copy)]
+pub enum Endpoint {
+    /// The "timezone" endpoint.
+    Timezone,
+    /// The "ip" endpoint.
+    Ip,
+}
+
+impl Display for Endpoint {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                Endpoint::Timezone => "timezone",
+                Endpoint::Ip => "ip",
+            }
+        )
+    }
+}
+
 impl Client {
     /// Create a new client for the specified endpoint.
-    pub async fn new(endpoint: &str) -> Result<Client, reqwest::Error> {
+    pub async fn new(endpoint: Endpoint) -> Result<Client, reqwest::Error> {
         // for the timezone endpoint, define a region list property
         let regions: Vec<Value> = match endpoint {
-            "timezone" => {
+            Endpoint::Timezone => {
                 let url = "https://worldtimeapi.org/api/timezone/".to_string();
                 let response = reqwest::get(&url).await?;
 
                 response.json().await?
             }
-            "ip" => {
+            Endpoint::Ip => {
                 let url = "https://worldtimeapi.org/api/ip".to_string();
                 let response = reqwest::get(&url).await?;
 
                 response.json().await?
             }
-            _ => panic!("Unsupported endpoint: {}", endpoint),
         };
 
         let url: String = format!("https://worldtimeapi.org/api/{}", endpoint);

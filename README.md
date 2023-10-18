@@ -10,7 +10,7 @@ To use this crate, add `worldtimeapi` to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-worldtimeapi = "0.4.1"
+worldtimeapi = "0.5.0"
 ```
 
 Then create a client for an endpoint (currently they only offer "ip" and "timezone"):
@@ -18,11 +18,11 @@ Then create a client for an endpoint (currently they only offer "ip" and "timezo
 ```rust
 use std::collections::HashMap;
 
-use worldtimeapi::service::Client;
+use worldtimeapi::service::{Client, Endpoint};
 
 #[tokio::main]
 async fn main() -> Result<(), reqwest::Error> {
-   let client = Client::new("timezone").await?;
+   let client = Client::new(Endpoint::Timezone).await?;
 
    let mut payload = HashMap::new();
    payload.insert("area", "America");
@@ -37,11 +37,11 @@ async fn main() -> Result<(), reqwest::Error> {
 To get a list of regions and locations, use the `regions` method:
 
 ```rust
-use worldtimeapi::service::Client;
+use worldtimeapi::service::{Client, Endpoint};
 
 #[tokio::main]
 async fn main() -> Result<(), reqwest::Error> {
-   let client = Client::new("timezone").await?;
+   let client = Client::new(Endpoint::Timezone).await?;
    let regions = client.regions();
    println!("{:?}", regions);
    Ok(())

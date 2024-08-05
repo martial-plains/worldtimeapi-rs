@@ -1,6 +1,6 @@
 [package]
 name = "worldtimeapi"
-version = "0.5.1"
+version = "0.5.2"
 edition = "2021"
 authors = ["Allister Isaiah Harvey <a.i.harvey@icloud.com"]
 description = "A simple API for getting the current time in different timezones."

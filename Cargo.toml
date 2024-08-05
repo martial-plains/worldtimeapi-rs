@@ -11,7 +11,7 @@ repository = "https://github.com/martial-plains/worldtimeapi-rs"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-serde = { version = "1.0.203", features = ["derive"] }
+serde = { version = "1.0.204", features = ["derive"] }
 serde_json = { version = "1.0.117" }
 reqwest = { version = "0.12.4", features = ["json"] }
 chrono = { version = "0.4.38", features = ["serde"] }

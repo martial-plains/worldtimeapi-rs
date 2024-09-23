@@ -10,7 +10,7 @@ To use this crate, add `worldtimeapi` to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-worldtimeapi = "0.5.1"
+worldtimeapi = "0.5.2"
 ```
 
 Then create a client for an endpoint (currently they only offer "ip" and "timezone"):

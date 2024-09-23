@@ -1,5 +1,6 @@
-use std::{collections::HashMap, fmt::Display, panic};
+use std::{collections::HashMap, panic};
 
+use derive_more::derive::Display;
 use serde_json::Value;
 
 use crate::schema::DateTimeJson;
@@ -18,25 +19,14 @@ pub struct Client {
 /// The World Time API provides two endpoints: "timezone" and "ip".
 /// The "timezone" endpoint allows querying the current time for a specific timezone region.
 /// The "ip" endpoint allows querying the current time for a specific IP address.
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Display, Clone, Copy)]
 pub enum Endpoint {
     /// The "timezone" endpoint.
+    #[display("timezone")]
     Timezone,
     /// The "ip" endpoint.
+    #[display("ip")]
     Ip,
-}
-
-impl Display for Endpoint {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "{}",
-            match self {
-                Endpoint::Timezone => "timezone",
-                Endpoint::Ip => "ip",
-            }
-        )
-    }
 }
 
 impl Client {
@@ -108,5 +98,97 @@ impl Client {
     #[must_use]
     pub fn regions(&self) -> &[Value] {
         self.regions.as_ref()
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    use std::collections::HashMap;
+
+    #[tokio::test]
+    async fn test_client_get_success() {
+        let mut server = mockito::Server::new_async().await;
+        let mock_response = r#"
+        {
+            "abbreviation": "EDT",
+            "client_ip": "192.0.2.1",
+            "datetime": "2024-09-23T14:23:48+00:00",
+            "day_of_week": 1,
+            "day_of_year": 266,
+            "dst": true,
+            "dst_from": null,
+            "dst_offset": 3600,
+            "dst_until": null,
+            "raw_offset": -18000,
+            "timezone": "America/New_York",
+            "unixtime": 1695475428,
+            "utc_datetime": "2024-09-23T14:23:48Z",
+            "utc_offset": "-05:00",
+            "week_number": 39
+        }
+        "#;
+
+        // Mocking the World Time API for a timezone query
+        let _m = server
+            .mock("GET", "/api/timezone/America/New_York")
+            .with_status(200)
+            .with_body(mock_response)
+            .create();
+
+        let client = Client {
+            regions: vec![],
+            url: format!("{}/api/timezone", server.url()),
+        };
+
+        let mut payload = HashMap::new();
+        payload.insert("area", "America");
+        payload.insert("location", "New_York");
+
+        let response = client.get(payload).await.unwrap();
+
+        // Verifying that the response matches the mock response
+        let expected = serde_json::from_str::<DateTimeJson>(mock_response).unwrap();
+        assert_eq!(response.abbreviation(), expected.abbreviation());
+        assert_eq!(response.client_ip(), expected.client_ip());
+    }
+
+    #[tokio::test]
+    #[should_panic(expected = "Invalid key: invalid_key")]
+    async fn test_client_get_invalid_key() {
+        let server = mockito::Server::new_async().await;
+        let client = Client {
+            regions: vec![],
+            url: format!("{}/api/timezone", server.url()),
+        };
+
+        let mut payload = HashMap::new();
+        payload.insert("invalid_key", "America");
+
+        // This should panic because "invalid_key" is not a valid key
+        client.get(payload).await.unwrap();
+    }
+
+    #[tokio::test]
+    #[should_panic(expected = "Missing key: area")]
+    async fn test_client_get_missing_area() {
+        let server = mockito::Server::new_async().await;
+        let client = Client {
+            regions: vec![],
+            url: format!("{}/api/timezone", server.url()),
+        };
+
+        let mut payload = HashMap::new();
+        payload.insert("location", "New_York");
+
+        // This should panic because the "area" key is missing
+        client.get(payload).await.unwrap();
+    }
+
+    #[test]
+    fn test_endpoint_display() {
+        assert_eq!(Endpoint::Timezone.to_string(), "timezone");
+        assert_eq!(Endpoint::Ip.to_string(), "ip");
     }
 }

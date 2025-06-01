@@ -19,5 +19,5 @@ time = "0.3.41"
 derive_more = { version = "2.0.1", features = ["display"] }
 
 [dev-dependencies]
-tokio = { version = "1.44.2", features = ["macros", "rt-multi-thread"] }
+tokio = { version = "1.45.1", features = ["macros", "rt-multi-thread"] }
 mockito = "1.7.0"

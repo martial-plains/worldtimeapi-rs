@@ -1,4 +1,4 @@
-use std::{collections::HashMap, panic};
+use std::{collections::HashMap, fmt::Write, panic, string::ToString};
 
 use derive_more::derive::Display;
 use serde_json::Value;
@@ -31,7 +31,13 @@ pub enum Endpoint {
 
 impl Client {
     /// Create a new client for the specified endpoint.
-    pub async fn new(endpoint: Endpoint) -> Result<Client, reqwest::Error> {
+    ///
+    /// # Errors
+    ///
+    /// This function will return an error if:
+    /// - The request to the World Time API fails (e.g., network issues).
+    /// - The response cannot be deserialized into a JSON value.
+    pub async fn new(endpoint: Endpoint) -> Result<Self, reqwest::Error> {
         // for the timezone endpoint, define a region list property
         let regions: Vec<Value> = match endpoint {
             Endpoint::Timezone => {
@@ -48,41 +54,55 @@ impl Client {
             }
         };
 
-        let url: String = format!("https://worldtimeapi.org/api/{}", endpoint);
+        let url: String = format!("https://worldtimeapi.org/api/{endpoint}");
 
-        Ok(Client { regions, url })
+        Ok(Self { regions, url })
     }
 
     /// Get the current time for the specified region.
+    ///
+    /// # Errors
+    ///
+    /// This function will return an error if:
+    /// - The request to the World Time API fails.
+    /// - The response cannot be deserialized into a `DateTimeJson`.
+    /// - The `payload` is missing required keys like `area`, or contains invalid keys, in which case it panics.
+    ///
+    /// # Panics
+    ///
+    /// This function will panic if:
+    /// - The `payload` contains invalid keys not among "area", "location", or "region".
+    /// - The required key `area` is missing.
+    /// - The `region` key is provided without a `location`.
     pub async fn get(&self, payload: HashMap<&str, &str>) -> Result<DateTimeJson, reqwest::Error> {
         let keys = payload
             .keys()
-            .map(|s| s.to_string())
+            .map(ToString::to_string)
             .collect::<Vec<String>>();
         let mut args = String::new();
 
         for item in keys.clone() {
             if !["area", "location", "region"]
                 .iter()
-                .map(|s| s.to_string())
+                .map(ToString::to_string)
                 .any(|x| x == *item)
             {
-                panic!("Invalid key: {}", item);
+                panic!("Invalid key: {item}");
             }
         }
 
         if keys.contains(&"area".to_string()) {
-            args.push_str(&format!("/{}", payload["area"]));
+            write!(args, "/{}", payload["area"]).unwrap();
         } else {
             panic!("Missing key: area");
         }
 
         if keys.contains(&"location".to_string()) {
-            args.push_str(&format!("/{}", payload["location"]));
+            write!(args, "/{}", payload["location"]).unwrap();
         }
 
         if keys.contains(&"location".to_string()) && keys.contains(&"region".to_string()) {
-            args.push_str(&format!("/{}", payload["region"]));
+            write!(args, "/{}", payload["region"]).unwrap();
         } else if !keys.contains(&"location".to_string()) && keys.contains(&"region".to_string()) {
             panic!("Missing key: region");
         }

@@ -13,7 +13,7 @@ async fn main() -> Result<(), reqwest::Error> {
     // Returns DateTimeJson object
     let response = client.get(requests).await?;
 
-    println!("{:#?}", response);
+    println!("{response:#?}");
 
     Ok(())
 }

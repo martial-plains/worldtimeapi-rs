@@ -13,7 +13,7 @@ repository = "https://github.com/martial-plains/worldtimeapi-rs"
 [dependencies]
 serde = { version = "1.0.228", features = ["derive"] }
 serde_json = { version = "1.0.145" }
-reqwest = { version = "0.12.24", features = ["json"] }
+reqwest = { version = "0.12.26", features = ["json"] }
 chrono = { version = "0.4.42", features = ["serde"] }
 time = "0.3.44"
 derive_more = { version = "2.0.1", features = ["display"] }

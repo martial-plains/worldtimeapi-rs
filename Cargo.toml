@@ -16,7 +16,7 @@ serde_json = { version = "1.0.148" }
 reqwest = { version = "0.12.26", features = ["json"] }
 chrono = { version = "0.4.42", features = ["serde"] }
 time = "0.3.44"
-derive_more = { version = "2.0.1", features = ["display"] }
+derive_more = { version = "2.1.1", features = ["display"] }
 
 [dev-dependencies]
 tokio = { version = "1.48.0", features = ["macros", "rt-multi-thread"] }
